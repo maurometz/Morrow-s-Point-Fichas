@@ -86,6 +86,7 @@
     display: block;
     position: absolute;
     inset: 0;
+    z-index: 1;
   }
 
   .header-text { flex: 1; padding-top: 4px; }
@@ -231,6 +232,7 @@
     text-transform: uppercase;
     padding: 3px 7px;
     transform: rotate(-7deg);
+    pointer-events: none;
   }
 
   .cassette-line {
@@ -259,7 +261,61 @@
     margin-top: 16px;
   }
 
-  /* MEDIA QUERIES PARA RESPONSIVIDADE MOBILE */
+  /* ----------------------------------
+     ANIMAÇÕES CSS (TEMA PARANORMAL)
+     ---------------------------------- */
+
+  /* 1. Revelação dos blocos */
+  .revealed-item {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: reveal-fade 0.7s ease-out forwards;
+  }
+  @keyframes reveal-fade {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 2. Piscar da fita cassete */
+  .play-symbol {
+    animation: play-blink 1.2s step-end infinite;
+  }
+  @keyframes play-blink {
+    50% { opacity: 0; }
+  }
+
+  /* 3. Batida do Carimbo */
+  .stamp {
+    opacity: 0;
+    animation: stamp-apply 0.5s ease-out forwards;
+  }
+  @keyframes stamp-apply {
+    0% { opacity: 0; transform: rotate(15deg) scale(2.5); }
+    100% { opacity: 1; transform: rotate(-7deg) scale(1); }
+  }
+
+  /* 4. Anomalia fotográfica (Interferência sutil) */
+  .photo-box {
+    animation: photo-anormal 7s infinite;
+  }
+  @keyframes photo-anormal {
+    0%, 94%, 98%, 100% { filter: contrast(1) sepia(0); }
+    95%, 97% { filter: contrast(1.3) sepia(0.5) hue-rotate(-15deg); }
+    96% { filter: contrast(1.5) grayscale(0.8); }
+  }
+
+  /* 5. Falha nos Defeitos (Glitch sutil) */
+  .tag.red {
+    animation: tag-glitch 5s linear infinite;
+  }
+  @keyframes tag-glitch {
+    0%, 90%, 100% { opacity: 1; border-color: rgba(192,57,43,0.38); }
+    92%, 96% { opacity: 0.6; }
+    94%, 98% { opacity: 0.9; border-color: #c0392b; }
+  }
+
+  /* ----------------------------------
+     MEDIA QUERIES - MOBILE
+     ---------------------------------- */
   @media (max-width: 600px) {
     body {
       padding: 16px 10px;
@@ -286,7 +342,9 @@
     }
   }
 
-  /* ESTILOS PARA IMPRESSÃO */
+  /* ----------------------------------
+     ESTILOS PARA IMPRESSÃO
+     ---------------------------------- */
   @media print {
     body { background: white; padding: 0; gap: 0; }
     .page {
@@ -297,8 +355,15 @@
       padding: 28px 36px 24px;
     }
     .two-col {
-      grid-template-columns: 1fr 1fr; /* Força duas colunas na impressão em papel */
+      grid-template-columns: 1fr 1fr; 
     }
+    
+    /* Remove animações na impressão para não sumir conteúdo */
+    .revealed-item { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .play-symbol { animation: none !important; }
+    .stamp { opacity: 1 !important; transform: rotate(-7deg) scale(1) !important; animation: none !important; }
+    .photo-box { animation: none !important; filter: none !important; }
+    .tag.red { animation: none !important; opacity: 1 !important; }
   }
 </style>
 </head>
@@ -307,7 +372,7 @@
 <div class="page">
   <div class="tape"></div>
 
-  <div class="header">
+  <div class="header revealed-item" style="animation-delay: 0.1s;">
     <div class="photo-box">
            <img src="foto-ethan.jpg" alt="Ethan Carter">
     </div>
@@ -323,9 +388,9 @@
     </div>
   </div>
 
-  <div class="cassette-line"><span class="cassette-icon">◼ ▶</span></div>
+  <div class="cassette-line revealed-item" style="animation-delay: 0.2s;"><span class="cassette-icon">◼ <span class="play-symbol">▶</span></span></div>
 
-  <div class="two-col">
+  <div class="two-col revealed-item" style="animation-delay: 0.3s;">
     <div>
       <span class="section-label">Qualidades</span>
       <div class="tag-row">
@@ -346,9 +411,9 @@
     </div>
   </div>
 
-  <hr class="div">
+  <hr class="div revealed-item" style="animation-delay: 0.4s;">
 
-  <div class="two-col">
+  <div class="two-col revealed-item" style="animation-delay: 0.5s;">
     <div>
       <span class="section-label">Gostos</span>
       <ul class="bare-list">
@@ -384,32 +449,33 @@
     </div>
   </div>
 
-  <hr class="div">
+  <hr class="div revealed-item" style="animation-delay: 0.6s;">
 
-  <div class="one-col">
+  <div class="one-col revealed-item" style="animation-delay: 0.7s;">
     <span class="section-label">Quem ele é</span>
     <p class="bio">Ethan cresceu rápido demais. O pai foi embora quando ele ainda era criança — e ele estava lá para ver a porta fechar. Desde então, aprendeu a cozinhar, a consertar o que quebrava em casa e a engolir os próprios medos porque alguém precisava ser o forte. Na escola, as pessoas confiam nele não porque seja o mais popular, mas porque aparece quando é preciso: com uma desculpa pronta, uma caixa de ferramentas ou simplesmente o silêncio certo na hora certa. Ele acha que vai ficar em Morrow's Point para sempre. Não fala muito sobre isso.</p>
     <div class="pull-quote">"Ele nunca aprendeu a deixar as pessoas livres. Só a tentar garantir que elas voltassem para casa."</div>
   </div>
 
-  <hr class="div">
+  <hr class="div revealed-item" style="animation-delay: 0.8s;">
 
-  <div class="one-col" style="margin-bottom:0;">
+  <div class="one-col revealed-item" style="margin-bottom:0; animation-delay: 0.9s;">
     <span class="section-label">Como ele se relaciona com os amigos</span>
     <div class="relation-block">
       <p>Ethan não é efusivo. Não vai ser o primeiro a dizer que se importa — mas vai ser o último a ir embora quando a coisa apertar. Ele observa mais do que fala e escolhe as pessoas ao redor com cuidado. Se você é amigo de Ethan Carter, é porque ele decidiu, em algum momento, que você valia o risco. E isso, vindo dele, significa muito mais do que parece.</p>
     </div>
   </div>
 
-  <div class="stamp">M.P. · 1986</div>
-  <div class="footer-note">Ethan Miller Carter · Morrow's Point High School · Turma de 1987 · ◼ ▶ ■</div>
+  <div class="stamp" style="animation-delay: 1.4s;">M.P. · 1986</div>
+  <div class="footer-note revealed-item" style="animation-delay: 1s;">Ethan Miller Carter · Morrow's Point High School · Turma de 1987 · ◼ <span class="play-symbol">▶</span> ■</div>
 </div>
 
 
+<!-- PÁGINA 2 -->
 <div class="page">
   <div class="tape"></div>
 
-  <div class="header">
+  <div class="header revealed-item" style="animation-delay: 0.1s;">
     <div class="photo-box">
            <img src="foto-lorelei.jpg" alt="Lorelei Carter">
     </div>
@@ -425,9 +491,9 @@
     </div>
   </div>
 
-  <div class="cassette-line"><span class="cassette-icon">◼ ▶</span></div>
+  <div class="cassette-line revealed-item" style="animation-delay: 0.2s;"><span class="cassette-icon">◼ <span class="play-symbol">▶</span></span></div>
 
-  <div class="two-col">
+  <div class="two-col revealed-item" style="animation-delay: 0.3s;">
     <div>
       <span class="section-label">Qualidades</span>
       <div class="tag-row">
@@ -448,9 +514,9 @@
     </div>
   </div>
 
-  <hr class="div">
+  <hr class="div revealed-item" style="animation-delay: 0.4s;">
 
-  <div class="two-col">
+  <div class="two-col revealed-item" style="animation-delay: 0.5s;">
     <div>
       <span class="section-label">Gostos</span>
       <ul class="bare-list">
@@ -491,25 +557,25 @@
     </div>
   </div>
 
-  <hr class="div">
+  <hr class="div revealed-item" style="animation-delay: 0.6s;">
 
-  <div class="one-col">
+  <div class="one-col revealed-item" style="animation-delay: 0.7s;">
     <span class="section-label">Quem ela é</span>
     <p class="bio">Lorelei nunca conheceu o pai — ele foi embora antes que ela formasse qualquer lembrança. O que ficou foi uma pergunta sem resposta e uma desconfiança profunda com adultos que encerram conversas difíceis com "você é jovem demais pra entender". Ela não aceita portas fechadas. Faz perguntas que deixam as pessoas desconfortáveis — e continua perguntando quando dizem que não é da conta dela. Na escola, é a aluna mais interessada quando gosta do assunto e completamente ausente quando não gosta. Tem amigos, mas a maioria acha que a conhece melhor do que realmente conhece.</p>
     <div class="pull-quote">"Ela acredita que toda resposta existe em algum lugar. Basta procurar o suficiente."</div>
   </div>
 
-  <hr class="div">
+  <hr class="div revealed-item" style="animation-delay: 0.8s;">
 
-    <div class="one-col" style="margin-bottom:0;">
+    <div class="one-col revealed-item" style="margin-bottom:0; animation-delay: 0.9s;">
     <span class="section-label">Como ela se relaciona com os amigos</span>
     <div class="relation-block">
       <p>Se você está no círculo de Lorelei, prepare-se para perguntas invasivas, chicletes compartilhados e fitas cassete personalizadas. Ela usa o caos e as risadas para manter as pessoas por perto, agindo como a cola do grupo — talvez porque, no fundo, ela precise provar para si mesma que eles não vão escolher partir.</p>
     </div>
   </div>
 
-  <div class="stamp">M.P. · 1986</div>
-  <div class="footer-note">Lorelei Miller Carter · Morrow's Point High School · Turma de 1986 · ◼ ▶ ■</div>
+  <div class="stamp" style="animation-delay: 1.4s;">M.P. · 1986</div>
+  <div class="footer-note revealed-item" style="animation-delay: 1s;">Lorelei Miller Carter · Morrow's Point High School · Turma de 1986 · ◼ <span class="play-symbol">▶</span> ■</div>
 </div>
 
 </body>
